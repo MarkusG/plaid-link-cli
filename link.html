@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script>
+		async function link() {
+            // get token
+            const createLinkToken = async () => {
+              const res = await fetch("/create_link_token");
+              const data = await res.json();
+              const linkToken = data.link_token;
+              localStorage.setItem("link_token", linkToken);
+              return linkToken;
+            };
+
+            // initialize
+            const handler = Plaid.create({
+              token: await createLinkToken(),
+              onSuccess: async (publicToken, metadata) => {
+                await fetch("/exchange_public_token", {
+                  method: "POST",
+                  body: JSON.stringify({ public_token: publicToken }),
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                });
+              },
+              onEvent: (eventName, metadata) => {
+                console.log("Event:", eventName);
+                console.log("Metadata:", metadata);
+              },
+              onExit: (error, metadata) => {
+                console.log(error, metadata);
+              },
+            });
+
+            // open
+		    handler.open();
+		}
+
+		link();
+    </script>
+  </head>
+  <title>Plaid</title>
+  <body>
+  </body>
+</html>
