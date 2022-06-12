@@ -14,7 +14,7 @@ pub async fn get_link_token(client_id: &str, client_secret: &str)
             "secret": client_secret,
             "user": { "client_user_id": "unique-per-user" },
             "client_name": "Plaid App",
-            "products": ["auth"],
+            "products": ["transactions"],
             "country_codes": ["US"],
             "language": "en"
         });
