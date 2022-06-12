@@ -1,12 +1,13 @@
 use std::path::Path;
 use std::sync::Arc;
 
-use plaid_cli::credentials_provider::{
-    DefaultCredentialsProvider,
-    DynCredentialsProvider
+use plaid_cli::{
+    endpoints,
+    credentials_provider::{
+        DefaultCredentialsProvider,
+        DynCredentialsProvider
+    }
 };
-
-use plaid_cli::endpoints;
 
 use axum::{
     routing::{get, post},

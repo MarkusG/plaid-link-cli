@@ -1,12 +1,8 @@
 use std::fs;
 
-use crate::credentials_provider::DynCredentialsProvider;
+use crate::{credentials_provider::DynCredentialsProvider, get_link_token};
 
-use crate::get_link_token;
-
-use axum::response::Html;
-use axum::Extension;
-use axum::Json;
+use axum::{response::Html, Extension, Json};
 use serde::Deserialize;
 
 pub async fn root() -> Html<String> {
