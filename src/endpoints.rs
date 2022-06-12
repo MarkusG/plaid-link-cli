@@ -32,8 +32,19 @@ pub struct PublicToken {
     public_token: String
 }
 
-pub async fn exchange_public_token(Json(payload): Json<PublicToken>) -> String {
-    // TODO
-    println!("{:?}", payload);
-    String::new()
+pub async fn exchange_public_token(
+    Json(payload): Json<PublicToken>,
+    Extension(credentials): Extension<DynCredentialsProvider>) {
+    let public_token = payload.public_token;
+
+    // get credentials
+    let client_id = credentials.get_client_id().await;
+    let client_secret = credentials.get_client_secret().await;
+
+    if let Ok(t) = crate::exchange_public_token(&public_token, client_id, client_secret).await {
+        println!("{}", t);
+    }
+    else {
+        panic!();
+    }
 }

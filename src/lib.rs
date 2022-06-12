@@ -19,10 +19,28 @@ pub async fn get_link_token(client_id: &str, client_secret: &str)
             "language": "en"
         });
 
+    post("https://sandbox.plaid.com/link/token/create", body.to_string()).await
+}
+
+pub async fn exchange_public_token(token: &str, client_id: &str, client_secret: &str)
+    -> Result<String, Box<dyn std::error::Error>> {
+    // build request body
+    let body = json!(
+        {
+            "client_id": client_id,
+            "secret": client_secret,
+            "public_token": token
+        });
+
+    post("https://sandbox.plaid.com/item/public_token/exchange", body.to_string()).await
+}
+
+async fn post(uri: &str, body: String)
+    -> Result<String, Box<dyn std::error::Error>> {
     // build request
     let req = Request::builder()
         .method(Method::POST)
-        .uri("https://sandbox.plaid.com/link/token/create")
+        .uri(uri)
         .header("content-type", "application/json")
         .body(Body::from(body.to_string()))?;
 
