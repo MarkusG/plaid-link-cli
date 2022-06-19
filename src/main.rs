@@ -1,5 +1,6 @@
 use std::path::Path;
 use std::sync::Arc;
+use std::process::Command;
 
 use plaid_cli::{
     endpoints,
@@ -30,9 +31,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .layer(Extension(credentials_provider));
 
     // run web server
-    axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
-        .serve(app.into_make_service())
-        .await
-        .unwrap();
+    let server = axum::Server::bind(&"127.0.0.1:3000".parse().unwrap())
+        .serve(app.into_make_service());
+
+    let res = Command::new("xdg-open")
+        .arg(format!("http://{}", server.local_addr()))
+        .output();
+
+    if let Err(e) = res {
+        eprintln!("failed to launch xdg-open: {}", e);
+        eprintln!("auto-open failed. navigate to http://{} in your web browser manually",
+                  server.local_addr());
+    }
+
+    if let Err(e) = server.await {
+        eprintln!("http server error: {}", e);
+    }
+
     Ok(())
 }
