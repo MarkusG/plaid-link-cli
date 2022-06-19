@@ -34,6 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let server = axum::Server::bind(&"127.0.0.1:3000".parse().unwrap())
         .serve(app.into_make_service());
 
+    // try to open using xdg-open
     let res = Command::new("xdg-open")
         .arg(format!("http://{}", server.local_addr()))
         .output();
@@ -44,6 +45,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                   server.local_addr());
     }
 
+    // keep server open
     if let Err(e) = server.await {
         eprintln!("http server error: {}", e);
     }
