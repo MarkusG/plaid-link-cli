@@ -19,11 +19,7 @@ pub async fn create_link_token(
     let client_secret = credentials.get_client_secret().await;
 
     // get link token
-    if let Ok(t) = get_link_token(client_id, client_secret).await {
-        t
-    } else {
-        panic!();
-    }
+    get_link_token(client_id, client_secret).await.unwrap()
 }
 
 #[derive(Debug)]
@@ -41,10 +37,8 @@ pub async fn exchange_public_token(
     let client_id = credentials.get_client_id().await;
     let client_secret = credentials.get_client_secret().await;
 
-    if let Ok(t) = crate::exchange_public_token(&public_token, client_id, client_secret).await {
-        println!("{}", t);
-    }
-    else {
-        panic!();
-    }
+    println!("{}",
+             crate::exchange_public_token(&public_token, client_id, client_secret)
+             .await
+             .unwrap());
 }
