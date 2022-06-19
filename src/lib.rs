@@ -13,7 +13,7 @@ pub async fn get_link_token(client_id: &str, client_secret: &str)
             "client_id": client_id,
             "secret": client_secret,
             "user": { "client_user_id": "unique-per-user" },
-            "client_name": "Plaid App",
+            "client_name": "plaid-cli",
             "products": ["transactions"],
             "country_codes": ["US"],
             "language": "en"
