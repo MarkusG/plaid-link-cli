@@ -2,7 +2,7 @@
   <head>
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
     <script>
-		async function link() {
+        async function link() {
             // get token
             const createLinkToken = async () => {
               const res = await fetch("/create_link_token");
@@ -34,10 +34,10 @@
             });
 
             // open
-		    handler.open();
-		}
+            handler.open();
+        }
 
-		link();
+        link();
     </script>
   </head>
   <title>Plaid</title>
