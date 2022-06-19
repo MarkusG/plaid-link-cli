@@ -2,7 +2,7 @@ use std::path::Path;
 use std::sync::Arc;
 use std::process::Command;
 
-use plaid_cli::{
+use plaid_link_cli::{
     endpoints,
     credentials_provider::{
         DefaultCredentialsProvider,
