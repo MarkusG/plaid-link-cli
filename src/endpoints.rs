@@ -1,4 +1,5 @@
 use std::fs;
+use std::process;
 
 use crate::{credentials_provider::DynCredentialsProvider, get_link_token};
 
@@ -41,4 +42,6 @@ pub async fn exchange_public_token(
              crate::exchange_public_token(&public_token, client_id, client_secret)
              .await
              .unwrap());
+
+    process::exit(0);
 }
